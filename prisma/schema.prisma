@@ -1,0 +1,83 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id                  String                @id @default(uuid())
+  email               String?               @unique
+  password            String?
+  fullname            String?
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  deletedAt           DateTime?
+  CategoryBuy         CategoryBuy[]
+  ExpectationPerMonth ExpectationPerMonth[]
+}
+
+model CategorySpend {
+  id          String    @id @default(uuid())
+  name        String
+  description String    @db.Text()
+  createdAt   DateTime  @default(now())
+  updatedAt   DateTime  @updatedAt
+  deletedAt   DateTime?
+}
+
+model CategoryBuy {
+  id                  String                @id @default(uuid())
+  name                String
+  description         String?               @db.Text()
+  haveUserId          String
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  deletedAt           DateTime?
+  User                User                  @relation(fields: [haveUserId], references: [id])
+  SpendingExpectation SpendingExpectation[]
+  SpendingReality     SpendingReality[]
+}
+
+model ExpectationPerMonth {
+  id                  String                @id @default(uuid())
+  income              Decimal               @default(0)
+  userId              String
+  createdAt           DateTime              @default(now())
+  updatedAt           DateTime              @updatedAt
+  deletedAt           DateTime?
+  User                User                  @relation(fields: [userId], references: [id])
+  SpendingExpectation SpendingExpectation[]
+}
+
+model SpendingExpectation {
+  id                    String              @id @default(uuid())
+  name                  String
+  budget                Decimal             @default(0)
+  startDateSpend        DateTime
+  endDateSpend          DateTime
+  categoryBuyId         String
+  expectationPerMonthId String
+  createdAt             DateTime            @default(now())
+  updatedAt             DateTime            @updatedAt
+  deletedAt             DateTime?
+  CategoryBuy           CategoryBuy         @relation(fields: [categoryBuyId], references: [id])
+  ExpectationPerMonth   ExpectationPerMonth @relation(fields: [expectationPerMonthId], references: [id])
+}
+
+model SpendingReality {
+  id            String      @id @default(uuid())
+  name          String
+  amount        Decimal     @default(0)
+  dateSpend     DateTime
+  categoryBuyId String
+  createdAt     DateTime    @default(now())
+  updatedAt     DateTime    @updatedAt
+  deletedAt     DateTime?
+  CategoryBuy   CategoryBuy @relation(fields: [categoryBuyId], references: [id])
+}
