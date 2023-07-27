@@ -23,12 +23,13 @@ model User {
 }
 
 model CategorySpend {
-  id          String    @id @default(uuid())
+  id          String        @id @default(uuid())
   name        String
-  description String    @db.Text()
-  createdAt   DateTime  @default(now())
-  updatedAt   DateTime  @updatedAt
+  description String        @db.Text()
+  createdAt   DateTime      @default(now())
+  updatedAt   DateTime      @updatedAt
   deletedAt   DateTime?
+  CategoryBuy CategoryBuy[]
 }
 
 model CategoryBuy {
@@ -36,10 +37,12 @@ model CategoryBuy {
   name                String
   description         String?               @db.Text()
   haveUserId          String
+  categorySpendId     String
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   deletedAt           DateTime?
   User                User                  @relation(fields: [haveUserId], references: [id])
+  CategorySpend       CategorySpend         @relation(fields: [categorySpendId], references: [id])
   SpendingExpectation SpendingExpectation[]
   SpendingReality     SpendingReality[]
 }
