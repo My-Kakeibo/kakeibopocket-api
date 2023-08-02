@@ -24,7 +24,7 @@ import { CategorySpendEntity } from './entities';
   path: 'master-data/category-spends',
   version: ['1.0.0'],
 })
-@ApiTags('categori-spends')
+@ApiTags('category-spends')
 export class CategorySpendsController {
   constructor(private readonly categorySpendsService: CategorySpendsService) {}
 

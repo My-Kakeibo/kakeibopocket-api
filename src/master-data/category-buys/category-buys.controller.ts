@@ -24,7 +24,7 @@ import { CategoryBuyEntity } from './entities';
   path: 'master-data/category-buys',
   version: ['1.0.0'],
 })
-@ApiTags('categori-buys')
+@ApiTags('category-buys')
 export class CategoryBuysController {
   constructor(private readonly categoryBuysService: CategoryBuysService) {}
 

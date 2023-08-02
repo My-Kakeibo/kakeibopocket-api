@@ -6,6 +6,7 @@ import { UsersModule } from './master-data/users/users.module';
 import { AuthModule } from './auth/auth.module';
 import { CategorySpendsModule } from './master-data/category-spends/category-spends.module';
 import { CategoryBuysModule } from './master-data/category-buys/category-buys.module';
+import { ExpectationPerMonthsModule } from './master-data/expectation-per-months/expectation-per-months.module';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CategoryBuysModule } from './master-data/category-buys/category-buys.mo
     AuthModule,
     CategorySpendsModule,
     CategoryBuysModule,
+    ExpectationPerMonthsModule,
   ],
   controllers: [AppController],
   providers: [AppService],
