@@ -1,6 +1,8 @@
 import { ApiProperty } from '@nestjs/swagger';
 import { CategoryBuy, CategorySpend, User } from '@prisma/client';
 import { Exclude } from 'class-transformer';
+import { CategorySpendEntity } from 'src/master-data/category-spends/entities';
+import { UserEntity } from 'src/master-data/users/entities';
 
 export class CategoryBuyEntity implements CategoryBuy {
   @ApiProperty()
@@ -35,7 +37,15 @@ export class CategoryBuyEntity implements CategoryBuy {
   @ApiProperty()
   deletedAt: Date;
 
-  constructor(partial?: Partial<CategoryBuyEntity>) {
+  constructor(partial: Partial<CategoryBuyEntity>) {
     Object.assign(this, partial);
+
+    if (partial.haveUser) {
+      this.haveUser = new UserEntity(partial.haveUser);
+    }
+
+    if (partial.categorySpend) {
+      this.categorySpend = new CategorySpendEntity(partial.categorySpend);
+    }
   }
 }

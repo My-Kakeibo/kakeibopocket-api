@@ -1,26 +1,56 @@
 import { Injectable } from '@nestjs/common';
 import { CreateCategoryBuyDto } from './dto/create-category-buy.dto';
 import { UpdateCategoryBuyDto } from './dto/update-category-buy.dto';
+import { PrismaService } from 'src/prisma/prisma.service';
+import { QueryCategoryBuyDto } from './dto';
+import { Prisma } from '@prisma/client';
+import { createPaginator } from 'prisma-pagination';
 
 @Injectable()
 export class CategoryBuysService {
-  create(createCategoryBuyDto: CreateCategoryBuyDto) {
-    return 'This action adds a new categoryBuy';
+  constructor(private prisma: PrismaService) {}
+
+  async create(createCategoryBuyDto: CreateCategoryBuyDto) {
+    return await this.prisma.categoryBuy.create({
+      data: createCategoryBuyDto,
+    });
   }
 
-  findAll() {
-    return `This action returns all categoryBuys`;
+  async findAll(queryDto: QueryCategoryBuyDto) {
+    // Query conditions
+    const where: Prisma.CategoryBuyWhereInput = {};
+    if (queryDto.search) {
+      where.OR = [
+        { name: { contains: queryDto.search } },
+        { description: { contains: queryDto.search } },
+      ];
+    }
+
+    const paginate = createPaginator({
+      perPage: queryDto.perPage,
+      page: queryDto.page,
+    });
+
+    return await paginate(this.prisma.categoryBuy, {
+      where,
+      orderBy: queryDto.getOrderBy,
+    });
   }
 
-  findOne(id: number) {
-    return `This action returns a #${id} categoryBuy`;
+  findOne(id: string) {
+    return this.prisma.categoryBuy.findUnique({
+      where: { id },
+    });
   }
 
-  update(id: number, updateCategoryBuyDto: UpdateCategoryBuyDto) {
-    return `This action updates a #${id} categoryBuy`;
+  update(id: string, updateCategoryBuyDto: UpdateCategoryBuyDto) {
+    return this.prisma.categoryBuy.update({
+      where: { id },
+      data: updateCategoryBuyDto,
+    });
   }
 
-  remove(id: number) {
-    return `This action removes a #${id} categoryBuy`;
+  remove(id: string) {
+    return this.prisma.categoryBuy.delete({ where: { id } });
   }
 }

@@ -25,7 +25,7 @@ export class UserEntity implements User {
   @ApiProperty()
   deletedAt: Date;
 
-  constructor(partial?: Partial<UserEntity>) {
+  constructor(partial: Partial<UserEntity>) {
     Object.assign(this, partial);
   }
 }

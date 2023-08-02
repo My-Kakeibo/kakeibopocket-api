@@ -20,7 +20,7 @@ export class CategorySpendEntity implements CategorySpend {
   @ApiProperty()
   deletedAt: Date;
 
-  constructor(partial?: Partial<CategorySpendEntity>) {
+  constructor(partial: Partial<CategorySpendEntity>) {
     Object.assign(this, partial);
   }
 }
