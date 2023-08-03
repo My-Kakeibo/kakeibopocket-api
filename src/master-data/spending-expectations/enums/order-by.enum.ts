@@ -1,5 +1,4 @@
 export const OrderBy = {
-  INCOME: 'income',
   CREATEDAT: 'createdAt',
   UPDATEDAT: 'updatedAt',
 };
