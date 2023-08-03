@@ -15,12 +15,16 @@ import { SpendingExpectationsService } from './spending-expectations.service';
 import { CreateSpendingExpectationDto } from './dto/create-spending-expectation.dto';
 import { UpdateSpendingExpectationDto } from './dto/update-spending-expectation.dto';
 import { JwtAuthGuard } from 'src/auth/jwt-auth.guard';
-import { ApiBearerAuth, ApiQuery } from '@nestjs/swagger';
+import { ApiBearerAuth, ApiQuery, ApiTags } from '@nestjs/swagger';
 import { ResponseEntity } from 'utils/entities';
 import { QuerySpendingExpectationDto } from './dto';
 import { SpendingExpectationEntity } from './entities';
 
-@Controller('spending-expectations')
+@Controller({
+  path: 'master-data/spending-expectations',
+  version: ['1.0.0'],
+})
+@ApiTags('spending-expectations')
 export class SpendingExpectationsController {
   constructor(
     private readonly spendingExpectationsService: SpendingExpectationsService,
@@ -68,7 +72,9 @@ export class SpendingExpectationsController {
     );
 
     if (!spendingExpectation) {
-      throw new NotFoundException(`CategorySpend with ${id} does not exist.`);
+      throw new NotFoundException(
+        `SpendingExpectation with ${id} does not exist.`,
+      );
     }
 
     return new ResponseEntity({
