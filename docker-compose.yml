@@ -12,5 +12,13 @@ services:
     ports:
       - '5555:5432'
 
-volumes:
-  postgres:
+  mykakeibo-api:
+    image: mykakeibo-api
+    environment:
+      - .env
+    ports:
+      - "3000:3000"
+    depends_on:
+      - postgres
+    networks:
+      - postgres
