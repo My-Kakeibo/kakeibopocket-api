@@ -1,11 +1,11 @@
 import { Module } from '@nestjs/common';
 import { SpendingExpectationsService } from './spending-expectations.service';
 import { SpendingExpectationsController } from './spending-expectations.controller';
-import { PrismaClient } from '@prisma/client';
+import { PrismaModule } from 'src/prisma/prisma.module';
 
 @Module({
   controllers: [SpendingExpectationsController],
   providers: [SpendingExpectationsService],
-  imports: [PrismaClient],
+  imports: [PrismaModule],
 })
 export class SpendingExpectationsModule {}
