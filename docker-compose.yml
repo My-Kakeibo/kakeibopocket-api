@@ -14,7 +14,7 @@ services:
       - '5555:5432'
 
   mykakeibo-api:
-    image: mykakeibo-api:latest
+    image: mykakeibo-api:dev
     env_file:
       - .env
     ports:
