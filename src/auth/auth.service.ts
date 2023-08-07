@@ -24,7 +24,7 @@ export class AuthService {
     }
 
     // Step 2: Check if the password is correct
-    const isPasswordValid = comparePassword(password, user.password);
+    const isPasswordValid = await comparePassword(password, user.password);
 
     // If password does not match, throw an error
     if (!isPasswordValid) {
