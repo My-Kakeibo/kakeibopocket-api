@@ -5,14 +5,13 @@ import {
 } from '@nestjs/common';
 import { PrismaService } from './../prisma/prisma.service';
 import { JwtService } from '@nestjs/jwt';
-import { AuthEntity } from './entities';
 import { comparePassword } from 'utils/helpers';
 
 @Injectable()
 export class AuthService {
   constructor(private prisma: PrismaService, private jwtService: JwtService) {}
 
-  async login(email: string, password: string): Promise<AuthEntity> {
+  async login(email: string, password: string) {
     // Step 1: Fetch a user with the given email
     const user = await this.prisma.user.findUnique({
       where: { email: email },
@@ -33,6 +32,7 @@ export class AuthService {
 
     // Step 3: Generate a JWT containing the user's ID and return it
     return {
+      user: user,
       accessToken: this.jwtService.sign({ userId: user.id }),
     };
   }
