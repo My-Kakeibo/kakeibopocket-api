@@ -18,8 +18,8 @@ model User {
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   deletedAt           DateTime?
-  CategoryBuy         CategoryBuy[]
-  ExpectationPerMonth ExpectationPerMonth[]
+  categoryBuy         CategoryBuy[]
+  expectationPerMonth ExpectationPerMonth[]
 }
 
 model CategorySpend {
@@ -29,22 +29,22 @@ model CategorySpend {
   createdAt   DateTime      @default(now())
   updatedAt   DateTime      @updatedAt
   deletedAt   DateTime?
-  CategoryBuy CategoryBuy[]
+  categoryBuy CategoryBuy[]
 }
 
 model CategoryBuy {
   id                  String                @id @default(uuid())
   name                String
   description         String?               @db.Text()
-  haveUserId          String
+  haveUserId          String?
   categorySpendId     String
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   deletedAt           DateTime?
-  User                User                  @relation(fields: [haveUserId], references: [id])
-  CategorySpend       CategorySpend         @relation(fields: [categorySpendId], references: [id])
-  SpendingExpectation SpendingExpectation[]
-  SpendingReality     SpendingReality[]
+  haveUser            User?                 @relation(fields: [haveUserId], references: [id])
+  categorySpend       CategorySpend         @relation(fields: [categorySpendId], references: [id])
+  spendingExpectation SpendingExpectation[]
+  spendingReality     SpendingReality[]
 }
 
 model ExpectationPerMonth {
@@ -54,8 +54,8 @@ model ExpectationPerMonth {
   createdAt           DateTime              @default(now())
   updatedAt           DateTime              @updatedAt
   deletedAt           DateTime?
-  User                User                  @relation(fields: [userId], references: [id])
-  SpendingExpectation SpendingExpectation[]
+  user                User                  @relation(fields: [userId], references: [id])
+  spendingExpectation SpendingExpectation[]
 }
 
 model SpendingExpectation {
@@ -69,8 +69,8 @@ model SpendingExpectation {
   createdAt             DateTime            @default(now())
   updatedAt             DateTime            @updatedAt
   deletedAt             DateTime?
-  CategoryBuy           CategoryBuy         @relation(fields: [categoryBuyId], references: [id])
-  ExpectationPerMonth   ExpectationPerMonth @relation(fields: [expectationPerMonthId], references: [id])
+  categoryBuy           CategoryBuy         @relation(fields: [categoryBuyId], references: [id])
+  expectationPerMonth   ExpectationPerMonth @relation(fields: [expectationPerMonthId], references: [id])
 }
 
 model SpendingReality {
@@ -82,5 +82,5 @@ model SpendingReality {
   createdAt     DateTime    @default(now())
   updatedAt     DateTime    @updatedAt
   deletedAt     DateTime?
-  CategoryBuy   CategoryBuy @relation(fields: [categoryBuyId], references: [id])
+  categoryBuy   CategoryBuy @relation(fields: [categoryBuyId], references: [id])
 }

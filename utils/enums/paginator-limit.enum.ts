@@ -1,4 +1,5 @@
 export const PaginatorLimit = {
+  EXTRA_SMALL: 10,
   SMALL: 15,
   MEDIUM: 25,
   LARGE: 50,

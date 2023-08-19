@@ -21,8 +21,8 @@ export class CategorySpendsService {
     const where: Prisma.CategorySpendWhereInput = {};
     if (queryDto.search) {
       where.OR = [
-        { name: { contains: queryDto.search } },
-        { description: { contains: queryDto.search } },
+        { name: { contains: queryDto.search, mode: 'insensitive' } },
+        { description: { contains: queryDto.search, mode: 'insensitive' } },
       ];
     }
 

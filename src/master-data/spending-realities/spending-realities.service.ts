@@ -20,7 +20,7 @@ export class SpendingRealitiesService {
     // Query conditions
     const where: Prisma.SpendingRealityWhereInput = {};
     if (queryDto.search) {
-      where.OR = [{ name: { contains: queryDto.search } }];
+      where.OR = [{ name: { contains: queryDto.search, mode: 'insensitive' } }];
     }
 
     const paginate = createPaginator({

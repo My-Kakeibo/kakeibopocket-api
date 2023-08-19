@@ -21,8 +21,8 @@ export class CategoryBuysService {
     const where: Prisma.CategoryBuyWhereInput = {};
     if (queryDto.search) {
       where.OR = [
-        { name: { contains: queryDto.search } },
-        { description: { contains: queryDto.search } },
+        { name: { contains: queryDto.search, mode: 'insensitive' } },
+        { description: { contains: queryDto.search, mode: 'insensitive' } },
       ];
     }
 
@@ -34,12 +34,20 @@ export class CategoryBuysService {
     return await paginate(this.prisma.categoryBuy, {
       where,
       orderBy: queryDto.getOrderBy,
+      include: {
+        categorySpend: true,
+        haveUser: true,
+      },
     });
   }
 
   findOne(id: string) {
     return this.prisma.categoryBuy.findUnique({
       where: { id },
+      include: {
+        categorySpend: true,
+        haveUser: true,
+      },
     });
   }
 

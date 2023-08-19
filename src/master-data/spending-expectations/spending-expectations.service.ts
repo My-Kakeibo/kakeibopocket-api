@@ -20,7 +20,11 @@ export class SpendingExpectationsService {
     // Query conditions
     const where: Prisma.SpendingExpectationWhereInput = {};
     if (queryDto.search) {
-      where.OR = [{ name: { contains: queryDto.search } }];
+      where.OR = [
+        {
+          name: { contains: queryDto.search, mode: 'insensitive' },
+        },
+      ];
     }
 
     const paginate = createPaginator({

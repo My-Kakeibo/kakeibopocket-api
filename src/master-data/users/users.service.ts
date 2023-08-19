@@ -24,8 +24,8 @@ export class UsersService {
     const where: Prisma.UserWhereInput = {};
     if (queryDto.search) {
       where.OR = [
-        { fullname: { contains: queryDto.search } },
-        { email: { contains: queryDto.search } },
+        { fullname: { contains: queryDto.search, mode: 'insensitive' } },
+        { email: { contains: queryDto.search, mode: 'insensitive' } },
       ];
     }
 
@@ -43,10 +43,6 @@ export class UsersService {
   findOne(id: string) {
     return this.prisma.user.findUnique({
       where: { id },
-      include: {
-        CategoryBuy: true,
-        ExpectationPerMonth: true,
-      },
     });
   }
 
